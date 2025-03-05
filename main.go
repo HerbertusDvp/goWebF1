@@ -1,31 +1,40 @@
 package main
 
 import (
-	"fmt"
-	"io"
+	"encoding/json"
+	"log"
 	"net/http"
+	"time"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	port := ":3333"
-	http.HandleFunc("/users", getUsers)
-	http.HandleFunc("/courses", getCourses)
 
-	err := http.ListenAndServe(port, nil)
+	router := mux.NewRouter()
+
+	router.HandleFunc("/users", getUsers).Methods("Get")
+	router.HandleFunc("/courses", getCourses).Methods("GET")
+
+	srv := &http.Server{
+		Handler:      router, //http.TimeoutHandler(router, time.Second*3, "e agotó el tiempo de espera"),
+		Addr:         "localhost:8000",
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 5 * time.Second,
+	}
+
+	err := srv.ListenAndServe()
 
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 }
 
-func getUsers(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("got /users")
-	io.WriteString(response, "Este es un endpoint de users")
-	fmt.Fprintln(response, " Endpoint GetUsers")
+func getUsers(w http.ResponseWriter, r *http.Request) {
+
+	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
 }
 
-func getCourses(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("got /users")
-	io.WriteString(response, "Endpoint de courses")
-	fmt.Fprintln(response, "Endpoint de coursos")
+func getCourses(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
 }
