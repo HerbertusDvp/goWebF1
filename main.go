@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"goWebF1/internal/user"
 	"log"
 	"net/http"
@@ -33,9 +32,4 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-}
-
-func getUsers(w http.ResponseWriter, r *http.Request) {
-
-	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
 }

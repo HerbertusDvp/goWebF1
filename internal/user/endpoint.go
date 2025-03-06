@@ -16,6 +16,17 @@ type (
 		Update Controller
 		Delete Controller
 	}
+
+	CreateReq struct {
+		FirsName string `json:"first_name"`
+		LastName string `json:"last_name"`
+		Email    string `json:"email"`
+		Phone    string `json:"phone"`
+	}
+
+	ErrorRes struct {
+		Error string `json:"error"`
+	}
 )
 
 func MakeEndpoints() EndPoints {
@@ -32,7 +43,29 @@ func MakeEndpoints() EndPoints {
 
 func makeCreateEndpoint() Controller {
 	return func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(map[string]bool{"okC": true})
+
+		var req CreateReq
+
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			w.WriteHeader(400)
+			json.NewEncoder(w).Encode(ErrorRes{"Invalid request format"})
+			return
+		}
+
+		if req.FirsName == "" {
+			w.WriteHeader(400)
+			json.NewEncoder(w).Encode(ErrorRes{"First name is required"})
+			return
+		}
+
+		if req.LastName == "" {
+			w.WriteHeader(400)
+			json.NewEncoder(w).Encode(ErrorRes{"last name is required"})
+			return
+		}
+
+		fmt.Println(req)
+		json.NewEncoder(w).Encode(req)
 	}
 }
 
