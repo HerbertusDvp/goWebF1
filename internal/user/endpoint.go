@@ -32,13 +32,13 @@ func MakeEndpoints() EndPoints {
 
 func makeCreateEndpoint() Controller {
 	return func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+		json.NewEncoder(w).Encode(map[string]bool{"okC": true})
 	}
 }
 
 func makeGetEndpoint() Controller {
 	return func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+		json.NewEncoder(w).Encode(map[string]bool{"okG": true})
 	}
 }
 
@@ -52,13 +52,13 @@ func makeGetAllEndpoint() Controller {
 func makeUpdateEndpoint() Controller {
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Make update endpoint")
-		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+		json.NewEncoder(w).Encode(map[string]bool{"okU": true})
 	}
 }
 
 func makeDeleteEndpoint() Controller {
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Make delete endpoint")
-		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+		json.NewEncoder(w).Encode(map[string]bool{"okD": true})
 	}
 }
