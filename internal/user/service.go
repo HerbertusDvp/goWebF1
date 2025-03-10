@@ -2,13 +2,13 @@ package user
 
 import "log"
 
-type Service interface {
+type Service interface { // Contrato
 	Create(firsName, lastName, email, phone string) error
 }
 
-type service struct{}
+type service struct{} // Sera la Implementción de la interfaz
 
-func NewService() Service {
+func NewService() Service { // Constructor -> interfaz
 	return &service{}
 }
 

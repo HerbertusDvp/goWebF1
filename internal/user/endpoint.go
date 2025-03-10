@@ -51,19 +51,16 @@ func makeCreateEndpoint(s Service) Controller {
 			json.NewEncoder(w).Encode(ErrorRes{"Invalid request format"})
 			return
 		}
-
 		if req.FirsName == "" {
 			w.WriteHeader(400)
 			json.NewEncoder(w).Encode(ErrorRes{"First name is required"})
 			return
 		}
-
 		if req.LastName == "" {
 			w.WriteHeader(400)
 			json.NewEncoder(w).Encode(ErrorRes{"last name is required"})
 			return
 		}
-
 		err := s.Create(req.FirsName, req.LastName, req.Email, req.Phone)
 		if err != nil {
 			w.WriteHeader(400)
